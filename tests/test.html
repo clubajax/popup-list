@@ -1,0 +1,87 @@
+<!DOCTYPE HTML>
+<html lang="en">
+<head>
+	<title>Test PopupList</title>
+	<link rel="stylesheet" href="../node_modules/mocha/mocha.css">
+	<link rel="stylesheet" href="./dist/popup-list.css" />
+	<script src="../node_modules/mocha/mocha.js"></script>
+	<script src="../node_modules/chai/chai.js"></script>
+	<script src="./dist/vendor.js"></script>
+	<script src="./dist/output.js"></script>
+
+	<script src="//localhost:35750/livereload.js"></script>
+
+	<style>
+		html, body{
+			height: 100%;
+		}
+		body {
+			padding: 20px;
+			font-family: sans-serif;
+		}
+		section {
+			border: 1px solid #ccc;
+			padding: 3px;
+			margin: 5px;
+		}
+		.spacing{
+			height: 1500px;
+		}
+		.BR{
+			position: absolute;
+			right: 20px;
+			bottom: 20px;
+		}
+		date-range-input,
+		date-range-inputs{
+			margin: 10px 0;
+		}
+	</style>
+</head>
+<body>
+<h1>Test PopupList</h1>
+
+<div id="mocha"></div>
+
+<div class="xspacing"></div>
+<div id="tests"></div>
+<div class="spacing"></div>
+
+<script>
+	window.mocha.setup('tdd');
+
+	suite('PopupList', function () {
+		this.timeout(3000);
+		var suite = window.suite,
+			test = window.test,
+			dom = window.dom,
+			on = window.on,
+			expect = chai.expect,
+			body = dom.byId('tests');
+
+		var data3 = ['Kitchen', 'Living Room', 'Den', 'Family Room', 'Bed Room', 'Guest Bath', 'Master Bath', 'Garage'];
+
+		suite('create', function () {
+
+			test('it should allow for simple array data', function (done) {
+				var node = dom('drop-down', { data: data3, placeholder: 'Get a room...' }, body);
+				onDomReady(node, function () {
+					expect(node.value).to.equal(null);
+					var h = node.on('open', function () {
+						on.emit(node.popup.children[2], 'click');
+						expect(node.value).to.equal('Den');
+						h.remove();
+						done();
+					});
+					on.emit(node.button, 'click');
+				});
+			});
+		});
+
+	});
+
+	window.mocha.run();
+
+</script>
+</body>
+</html>

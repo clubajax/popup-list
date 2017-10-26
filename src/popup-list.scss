@@ -1,0 +1,172 @@
+//@import "mixins";
+$hilite: #72acea;
+$selected: #3131ae;
+$selected-hilite: #5350ca;
+
+$dsbl-lt: #ddd;
+$dsbl-dk: #aaa;
+$blue: #058CD4;
+$btn-bk-hvr: #eee;
+$btn-dsbl: #ccc;
+$btn-dsbl-clr: #999;
+$brd-clr-lt: #d8d8d8;
+
+drop-down,
+combo-box,
+memory-box,
+action-button{
+    display: inline-block;
+    position: relative;
+    background-color: white;
+    font-family: Helvetica, Arial, clean, sans-serif;
+    font-size: 12px;
+    outline: 0;
+    .drop-btn{
+        position: relative;
+        border: 1px solid #ccc;
+        padding: 10px 20px 10px 10px;
+        cursor: pointer;
+        &.has-placeholder{
+            color: #999;
+            font-style: italic;
+        }
+        &:after{
+            content: '\25BE';
+            position: absolute;
+            right: 5px;
+            top: 50%;
+            transform: translateY(-50%);
+            font-style: normal;
+        }
+        &:hover{
+            background-color: $btn-bk-hvr;
+        }
+    }
+    &[disabled]{
+        .drop-btn{
+            background-color: $btn-dsbl;
+            font-style: italic;
+            color: $btn-dsbl-clr;
+            cursor: not-allowed;
+        }
+    }
+    &:focus:not([disabled]){
+        .drop-btn{
+            // emulate the focus outline
+            // prevents the outline from showing on the popup
+            border-color: $hilite;
+            box-shadow: 0 0 5px $hilite;
+        }
+    }
+    &.invalid input{
+        border-color: red;
+    }
+    &.blue, &.blue-white{
+        .drop-btn{
+            color: $blue;
+            border-color: $blue;
+        }
+    }
+    ul {
+        overflow: auto;
+        text-align: left;
+        display: none;
+        position: absolute;
+        left: 0;
+        bottom: 0;
+        transform: translateY(100%);
+        z-index: 1000;
+        margin: 0;
+        padding: 0;
+        border: 1px solid #eee;
+        box-shadow: -1px 1px 2px rgba(0,0,0,0.4);
+        background-color: white;
+        &.right-aligned{
+            left: auto;
+            right: 0;
+        }
+        &.top-aligned{
+            top: auto;
+            bottom: 36px;
+            transform: translateY(0%);
+        }
+        li {
+            list-style: none;
+            padding: 5px 8px;
+            white-space: nowrap;
+            cursor: pointer;
+            &[highlighted]{
+                background-color: $hilite;
+                color: white;
+            }
+            &:active{
+                cursor: default;
+                background-color: $selected;
+                color: white;
+            }
+        }
+        div.label{
+            padding: 5px 8px;
+            white-space: nowrap;
+            cursor: default;
+            color: #666;
+            background-color: #eee;
+        }
+    }
+    &.show{
+        ul{
+            display: block;
+        }
+    }
+}
+combo-box,
+memory-box{
+    //@include placeholder;
+    input{
+        padding: 10px;
+        &.has-placeholder{
+
+        }
+    }
+}
+
+drop-down{
+    ul{
+        li{
+            &[selected]{
+                // action-button is excluded from selections
+                cursor: default;
+                background-color: $selected;
+                color: white;
+                &[highlighted]{
+                    background-color: $selected-hilite;
+                }
+            }
+        }
+    }
+}
+
+action-button{
+    icon-export{
+        width: 20px;
+        height: 20px;
+        svg{
+            fill: #999;
+        }
+    }
+    .drop-btn{
+        border: 0;
+        padding: 6px 20px 5px 10px;
+        &:after{
+            color: #999;
+        }
+    }
+    &:hover{
+        svg{
+            fill: #333;
+        }
+        .drop-btn:after{
+            color: #333;
+        }
+    }
+}
