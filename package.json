@@ -1,6 +1,6 @@
 {
   "name": "@clubajax/popup-list",
-  "version": "0.9.4",
+  "version": "0.9.5",
   "description": "A popup list web component ",
   "main": "src/popup-list.js",
   "repository": "https://github.com/clubajax/popup-list.git",

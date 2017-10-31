@@ -15,7 +15,7 @@ class PopupList extends BaseComponent {
 		this.open = false;
 		this.selfOpen = true;
 		this.emitItem = false;
-		bindAll(this, 'toggle');
+		this.toggle = this.toggle.bind(this);
 	}
 
 	static get observedAttributes () {
@@ -95,7 +95,7 @@ class PopupList extends BaseComponent {
 		}
 		testId = testId ? `${testId}-popup` : autoId('popup');
 		// TODO: in React, the UL may be set
-		this.popup = dom('ul', { 'data-test-id': testId });
+		this.popup = dom('ul', { });
 		while (this.children.length) {
 			hasChildren = true;
 			if (this.children[0].localName !== 'li') {
