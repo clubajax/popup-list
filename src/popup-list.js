@@ -15,7 +15,7 @@ class PopupList extends BaseComponent {
 		this.open = false;
 		this.selfOpen = true;
 		this.emitItem = false;
-		this.toggle = this.toggle.bind(this);
+		bindAll(this, 'toggle');
 	}
 
 	static get observedAttributes () {
@@ -48,13 +48,10 @@ class PopupList extends BaseComponent {
 	}
 
 	set data (value) {
-		if (!value.length) {
-			return;
-		}
 		if (!Array.isArray(value)) {
 			value = [value];
 		}
-		if (typeof value[0] !== 'object') {
+		if (value.length && typeof value[0] !== 'object') {
 			value = value.map(item => ({ label: item, value: item }));
 		}
 		this.__value = null;
@@ -96,8 +93,9 @@ class PopupList extends BaseComponent {
 			let testId = this.button.getAttribute('data-test-id');
 			this.removeChild(this.button);
 		}
+		testId = testId ? `${testId}-popup` : autoId('popup');
 		// TODO: in React, the UL may be set
-		this.popup = dom('ul', { });
+		this.popup = dom('ul', { 'data-test-id': testId });
 		while (this.children.length) {
 			hasChildren = true;
 			if (this.children[0].localName !== 'li') {
@@ -241,7 +239,7 @@ class PopupList extends BaseComponent {
 	}
 
 	reset () {
-		const value = this.orgSelected ? this.orgSelected.dom.normalize('value') : null;
+		const value = this.orgSelected ? this.orgSelected : dom.normalize(this.getAttribute('value'));
 		this.select(value);
 	}
 
@@ -260,7 +258,7 @@ class PopupList extends BaseComponent {
 	}
 
 	show () {
-		if (this.disabled) {
+		if (this.disabled || !this.items.length) {
 			return;
 		}
 		dom.style(this.popup, 'min-width', dom.box(this).w);
