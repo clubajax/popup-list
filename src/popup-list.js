@@ -85,7 +85,6 @@ class PopupList extends BaseComponent {
 	}
 
 	domReady () {
-		let testId;
 		let postValue;
 		let hasChildren = false;
 		const parentValue = this.value;
@@ -93,7 +92,6 @@ class PopupList extends BaseComponent {
 			let testId = this.button.getAttribute('data-test-id');
 			this.removeChild(this.button);
 		}
-		testId = testId ? `${testId}-popup` : autoId('popup');
 		// TODO: in React, the UL may be set
 		this.popup = dom('ul', { });
 		while (this.children.length) {
