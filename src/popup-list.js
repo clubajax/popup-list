@@ -177,8 +177,9 @@ class PopupList extends BaseComponent {
 	}
 
 	select (value, silent) {
-		if (this.selectedNode) {
-			this.selectedNode.removeAttribute('selected');
+		const selected = this.selectedNode || dom.query(this.popup, '[selected]');
+		if (selected) {
+			selected.removeAttribute('selected');
 		}
 		this.selectedNode = dom.query(this.popup, `[value="${value}"]`);
 		if (this.selectedNode) {
